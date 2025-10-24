@@ -10,8 +10,6 @@
     <link rel="website icon" href="img/websiteicon.ico">
 </head>
 <body>
-
-
     <!-- Background Overlay -->
     <div class="background-overlay"></div>
 
@@ -245,95 +243,5 @@
     </footer>
 
     <script src="script.js"></script>
-
-    <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
-
-<script>
-  // إعداد Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyBI69uR2hULSYFTdRUUHSlOOItggVD6sDk",
-    authDomain: "smart-attendance-df6b0.firebaseapp.com",
-    databaseURL: "https://smart-attendance-df6b0-default-rtdb.firebaseio.com",
-    projectId: "smart-attendance-df6b0",
-    storageBucket: "smart-attendance-df6b0.appspot.com",
-    messagingSenderId: "830028317607",
-    appId: "1:830028317607:web:4b36b76aed8c0c3132ac82",
-    measurementId: "G-4LL3ZF4T48"
-  };
-
-  // تهيئة Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-
-  // تسجيل الحضور
-  document.getElementById("checkin-form").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const name = document.getElementById("checkin-name").value.trim();
-    const phone = document.getElementById("checkin-phone").value.trim();
-    const type = document.getElementById("user-type").value;
-    const city = localStorage.getItem("selectedCity") || "غير محدد";
-    const timeIn = new Date().toLocaleString("ar-SA");
-
-    if (!name || !phone || !type) {
-      alert("❗ الرجاء تعبئة جميع الحقول");
-      return;
-    }
-
-    db.ref("attendance").push({
-      city,
-      name,
-      phone,
-      type,
-      timeIn,
-      timeOut: "",
-      duration: ""
-    });
-
-    alert("✅ تم تسجيل الحضور بنجاح!");
-    this.reset();
-  });
-
-  // تسجيل الخروج
-  document.getElementById("checkout-form").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const phone = document.getElementById("checkout-phone").value.trim();
-    const timeOut = new Date().toLocaleString("ar-SA");
-
-    if (!phone) {
-      alert("❗ الرجاء إدخال رقم الجوال");
-      return;
-    }
-
-    db.ref("attendance").once("value", snapshot => {
-      let found = false;
-      snapshot.forEach(child => {
-        const data = child.val();
-        if (data.phone === phone && !data.timeOut) {
-          found = true;
-          const duration = calcDuration(data.timeIn, timeOut);
-          child.ref.update({ timeOut, duration });
-        }
-      });
-
-      alert(found ? " تم تسجيل الخروج" : " لم يتم العثور على رقم الجوال أو تم تسجيل الخروج مسبقًا");
-      this.reset();
-    });
-  });
-
-  // حساب المدة
-  function calcDuration(start, end) {
-    const s = new Date(start);
-    const e = new Date(end);
-    const diff = e - s;
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    return `${hours} ساعة و ${minutes} دقيقة`;
-  }
-</script>
-
-<script src="script.js"></script>
-
 </body>
 </html>
