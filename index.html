@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> نظام الحضور الذكي </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="website icon" href="img/websiteicon.ico">
+</head>
+<body class="city-selection">
+    <div class="city-selection-card">
+        <div class="city-selection-logo">
+            <i class="fas fa-city"></i>
+        </div>
+        <h1 class="city-selection-title">اختر الفرع</h1>        
+        <div class="city-grid">
+            <button class="city-btn" onclick="selectCity('الدمام')">
+                <i class="fas fa-building"></i> الدمام
+            </button>
+            <button class="city-btn" onclick="selectCity('الرياض')">
+                <i class="fas fa-building"></i> الرياض
+            </button>
+            <button class="city-btn" onclick="selectCity('جيزان')">
+                <i class="fas fa-building"></i> جيزان
+            </button>
+            <button class="city-btn" onclick="selectCity('نجران')">
+                <i class="fas fa-building"></i> نجران
+            </button>
+            <button class="city-btn" onclick="selectCity('حايل')">
+                <i class="fas fa-building"></i> حايل
+            </button>
+            <button class="city-btn" onclick="selectCity('احد رفيده')">
+                <i class="fas fa-building"></i> احد رفيده
+            </button>
+            <button class="city-btn" onclick="selectCity('بريدة')">
+                <i class="fas fa-building"></i> بريدة
+            </button>
+            <button class="city-btn" onclick="selectCity('سكاكا')">
+                <i class="fas fa-building"></i> سكاكا
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function selectCity(city) {
+            // Show loading spinner
+            document.body.classList.add('loading');
+            
+            // Store selected city
+            localStorage.setItem('selectedCity', city);
+            
+            // Redirect after short delay
+            setTimeout(() => {
+                window.location.href = 'register.html';
+            }, 500);
+        }
+        
+        // Prevent back navigation without city selection
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function() {
+            window.history.pushState(null, null, window.location.href);
+        };
+    </script>
+</body>
+</html>
+
+<style>
+        .city-selection {
+            background-image: url('img/background_image.png');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .city-selection-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .city-selection-logo {
+            width: 120px;
+            height: 120px;
+            background: rgba(54, 227, 155, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 50px;
+            color: #36E39B;
+        }
+        
+        .city-selection-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .city-selection-subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        .city-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .city-btn {
+            background: #36E39B;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .city-btn i {
+            margin-left: 10px;
+            font-size: 20px;
+        }
+        
+        .city-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: #2bc48d;
+        }
+        
+        .city-btn:active {
+            transform: translateY(1px);
+        }
+    </style>

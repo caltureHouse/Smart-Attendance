@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="نظام إدارة الحضور الذكي للمتطوعين">
+    <title>نظام الحضور الذكي | Smart Attendance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="website icon" href="img/websiteicon.ico">
+</head>
+<body>
+    <!-- Background Overlay -->
+    <div class="background-overlay"></div>
+
+    <div class="container">
+        <div class="screen active" id="welcome-screen">
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <img src="img/Logo.png" alt="Smart Attendance Logo" class="logo-image">
+                </div>
+                <h1 id="welcome-title">نظام الحضور</h1>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="showScreen('checkin-screen')">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل حضور
+                </button>
+                <button class="btn btn-secondary" onclick="showScreen('checkout-screen')">
+                    <i class="fas fa-sign-out-alt"></i> تسجيل خروج
+                </button>
+            </div>
+            
+            <div class="admin-access">
+                <button class="btn btn-admin" onclick="showScreen('admin-screen')">
+                    <i class="fas fa-lock"></i> لوحة التحكم
+                </button>
+            </div>
+        </div>
+
+        <!-- Check-in Screen -->
+        <div class="screen" id="checkin-screen">
+            <div class="screen-header">
+                <button class="btn btn-back" onclick="showScreen('welcome-screen')">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2>تسجيل حضور</h2>
+            </div>
+            
+            <div class="form-container">
+                <div class="avatar-container">
+                    <div class="avatar">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                </div>
+                
+                <form id="checkin-form">
+                    <div class="form-group">
+                        <label for="checkin-name">الاسم الكامل</label>
+                        <input type="text" id="checkin-name" required placeholder="الاسم الثلاثي">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="checkin-phone">رقم الجوال</label>
+                        <input type="tel" id="checkin-phone" required placeholder="05XXXXXXXX">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="user-type">النوع</label>
+                        <select id="user-type" required>
+                            <option value="" disabled selected>اختر النوع</option>
+                            <option value="متطوع">متطوع</option>
+                            <option value="متدرب">متدرب</option>
+                            <option value="تمهير">تمهير</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="opportunity-type-container" style="display: none;">
+                        <label for="opportunity-type">نوع الفرصة التطوعية</label>
+                        <input type="text" id="opportunity-type" placeholder="نوع الفرصة">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-check-circle"></i> تأكيد الحضور
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Check-out Screen -->
+        <div class="screen" id="checkout-screen">
+            <div class="screen-header">
+                <button class="btn btn-back" onclick="showScreen('welcome-screen')">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2>تسجيل خروج</h2>
+            </div>
+            
+            <div class="form-container">
+                <div class="avatar-container">
+                    <div class="avatar">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+                </div>
+                
+                <form id="checkout-form">
+                    <div class="form-group">
+                        <label for="checkout-phone">رقم الجوال</label>
+                        <input type="tel" id="checkout-phone" required placeholder="05XXXXXXXX">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-sign-out-alt"></i> تأكيد الخروج
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Admin Screen -->
+        <div class="screen" id="admin-screen">
+            <div class="screen-header">
+                <button class="btn btn-back" onclick="showScreen('welcome-screen')">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2>لوحة التحكم</h2>
+            </div>
+            
+            <div class="admin-panel">
+                <div class="admin-login">
+                    <div class="admin-logo">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <form id="admin-form">
+                        <div class="form-group">
+                            <label for="admin-username">اسم المستخدم</label>
+                            <input type="text" id="admin-username" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="admin-password">كلمة المرور</label>
+                            <input type="password" id="admin-password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-submit">
+                            <i class="fas fa-unlock-alt"></i> دخول
+                        </button>
+                    </form>
+                </div>
+
+                <div class="admin-content" id="admin-dashboard">
+                    <div class="admin-toolbar">
+                        <div class="admin-filter">
+                            <select id="city-filter" class="form-control">
+                                <option value="all">جميع الفروع</option>
+                            </select>
+                            <input type="date" id="date-filter" class="form-control">
+                        </div>
+                        <button class="btn btn-logout" onclick="logoutAdmin()">
+                            <i class="fas fa-sign-out-alt"></i> تسجيل خروج
+                        </button>
+                    </div>
+                    
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-icon present">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="present-count">0</span>
+                                <span class="stat-label">حضور اليوم</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon absent">
+                                <i class="fas fa-user-times"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="absent-count">0</span>
+                                <span class="stat-label">لم يخرجوا</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon total">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="total-count">0</span>
+                                <span class="stat-label">إجمالي الحضور</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-actions">
+                        <button class="btn btn-export" onclick="exportToExcel()">
+                            <i class="fas fa-file-excel"></i> تصدير Excel
+                        </button>
+                        <button class="btn btn-export" onclick="exportToPDF()">
+                            <i class="fas fa-file-pdf"></i> تصدير PDF
+                        </button>
+                        <button class="btn btn-reset" onclick="resetData()">
+                            <i class="fas fa-trash-alt"></i> إعادة تعيين
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>الفرع</th>
+                                    <th>الاسم</th>
+                                    <th>رقم الجوال</th>
+                                    <th>النوع</th>
+                                    <th>وقت الدخول</th>
+                                    <th>وقت الخروج</th>
+                                    <th>المدة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Notification -->
+    <div class="alert" id="alert-message"></div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="copyright">جميع الحقوق محفوظة&copy; <span id="current-year"></span> نظام الحضور الذكي</p>
+            <p class="developer">تطوير: <span>يوسف الأحمر</span></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
